@@ -4,6 +4,7 @@ import json
 from datetime import datetime
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.agent import llm_decide
 from app.db import conn, init_db, insert_run, parse_row
@@ -25,6 +26,14 @@ from app.models import (
 )
 
 app = FastAPI(title="LLM Voice Agent Test Harness")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.on_event("startup")
